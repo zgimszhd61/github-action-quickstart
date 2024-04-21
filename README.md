@@ -1,60 +1,37 @@
-Here is a quickstart guide for using GitHub Actions:
+GitHub Actions 是一个自动化工具，它可以帮助你自动化软件工作流程，比如构建、测试和部署代码。下面是一个非常简单的 GitHub Action 示例，它用于在每次有人向 `main` 分支推送代码时，自动运行一个简单的 "Hello, World!" 脚本。
 
-## What are GitHub Actions?
+首先，你需要在你的 GitHub 仓库中创建一个 `.github/workflows` 目录。然后，在这个目录下创建一个 YAML 文件，例如 `hello_world.yml`。这个 YAML 文件将定义你的 GitHub Action 工作流程。
 
-GitHub Actions is a powerful automation tool that allows you to build, test, and deploy your code directly from GitHub. It enables you to create custom workflows based on different events in your repository like new pull requests, issues, releases, etc. [1]
-
-## Setting Up Your First Workflow
-
-To get started with GitHub Actions, you need to create a YAML file in the `.github/workflows` directory of your repository. This file will define the steps and actions that make up your workflow.
-
-1. **Create the workflow file**: In your repository, create the `.github/workflows` directory if it doesn't exist, and add a new file with a descriptive name like `ci.yml`.
-
-2. **Define the workflow**: Open the `ci.yml` file and define your workflow by specifying the events that should trigger it. For example, to run the workflow on every push to the `main` branch:
+这是一个简单的 GitHub Action 示例文件的内容：
 
 ```yaml
-name: CI
+name: Hello World Workflow
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
-
-  build:
+  say_hello:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Run a script
-      run: echo "Hello, GitHub Actions!"
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run a one-line script
+        run: echo "Hello, World!"
 ```
 
-This basic workflow has a single job called `build` that runs on the latest Ubuntu virtual machine. The job has two steps: one that checks out the repository code, and another that runs a simple script. [2]
+解释一下每部分的功能：
+- `name`: 这个字段定义了工作流程的名字。
+- `on`: 这部分定义了触发工作流程的事件，这里的例子是每次向 `main` 分支推送代码时触发。
+- `jobs`: 定义要执行的工作列表。
+  - `say_hello`: 这是一个作业的标识符。
+  - `runs-on`: 指定运行作业的环境，这里是使用最新版的 Ubuntu。
+  - `steps`: 定义作业中的步骤。
+    - 第一个步骤使用 `actions/checkout@v3` 检出代码，这是必须的步骤，以便能够在工作流中访问仓库的内容。
+    - 第二个步骤运行一行脚本，打印 "Hello, World!"。
 
-3. **Commit the file**: Commit the `ci.yml` file to your repository's `main` branch. This will trigger the new workflow you just created.
-
-4. **View the workflow run**: On GitHub, navigate to the `Actions` tab of your repository to see the workflow run and its logs.
-
-## Next Steps
-
-This was just a simple example to get you started. GitHub Actions supports a wide range of tools and programming languages, allowing you to build complex workflows for continuous integration, deployment, code analysis, and more.
-
-Some useful next steps:
-
-- Explore the GitHub Actions Marketplace to find pre-built actions to include in your workflows[3]
-- Learn how to create custom actions and share them with others[2]
-- Check out examples and guides for common use cases like deploying to cloud providers, publishing packages, and more[4]
-- Automate your entire software development lifecycle with GitHub Actions[1]
-
-With GitHub Actions, you can streamline your development processes and ensure consistent, reliable builds and deployments directly from your GitHub repository. [1][2][3][4]
-
-Citations:
-[1] https://www.learnenough.com/blog/git-actions-tutorial
-[2] https://docs.github.com/en/actions/learn-github-actions
-[3] https://everhour.com/blog/github-actions-tutorial/
-[4] https://docs.github.com/en/actions/quickstart
-[5] https://codefresh.io/learn/github-actions/github-actions-tutorial-and-examples/
-[6] https://docs.github.com/en/actions
-[7] https://www.youtube.com/watch?v=ylEy4eLdhFs
-[8] https://github.com/osohq/oso-go-quickstart/actions
+这个例子非常基础，但足以展示如何设置一个简单的 GitHub Action 工作流程。你可以根据自己的需要添加更多的步骤和作业。
